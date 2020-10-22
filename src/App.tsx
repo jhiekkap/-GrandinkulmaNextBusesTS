@@ -18,9 +18,9 @@ const App: React.FC = () => {
     getNextVehicles()
   }, [chosenStopName])
 
-  const getNextVehicles = async () => {
+  const getNextVehicles: () => Promise<void> = async () => {
     try {
-      const result = await getVehicles(chosenStopName)
+      const result: any = await getVehicles(chosenStopName)
       console.log('GET VEHICLES RESULT', result)
       setChosenStops(result) 
     } catch (error) {

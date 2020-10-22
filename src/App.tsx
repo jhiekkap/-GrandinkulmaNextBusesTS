@@ -1,26 +1,39 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState, useEffect } from 'react';
 import './App.css';
+import { client, stopQuery } from './utils/graphQL'
+import { useInterval } from './utils/hooks';
+import TimeTable from './components/TimeTable';
+import StopSearch from './components/StopSearch';
 
-function App() {
+const  App: React.FC = () => {
+  const [chosenStops, setChosenStops] = useState([])
+  const [chosenStopName, setChosenStopName] = useState('Grandinkulma')
+
+  useInterval(() => {
+    getNextBuses()
+  }, 10000)
+
+  useEffect(() => {
+    getNextBuses()
+  }, [chosenStopName])
+
+  const getNextBuses = async () => {
+    try {
+      const result = await client().query({ query: stopQuery(chosenStopName) })
+      console.log('QUERY RESULT', result.data.stops)
+      setChosenStops(result.data.stops)
+    } catch (error) {
+      console.log('GRAPHQL ERROR', error)
+    }
+  }
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h2>{`Haun ${chosenStopName}  tulo- ja lähtöajat`}</h2>
+      <TimeTable chosenStops={chosenStops} />
+      <StopSearch setChosenStopName={setChosenStopName} />
     </div>
   );
-}
+} 
 
 export default App;

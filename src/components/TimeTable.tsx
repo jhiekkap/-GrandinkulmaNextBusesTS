@@ -3,11 +3,32 @@ import { getTime, delayToString } from '../utils';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
+interface Vehicle {
+    serviceDay: number;
+    scheduledArrival: number;
+    realtime: Boolean;
+    realtimeArrival: number;
+    arrivalDelay: number;
+    scheduledDeparture: number;
+    realtimeDeparture: number;
+    departureDelay: number;
+    line: string;
+    route: string;
+}
 
+interface Stop {
+    name: string;
+    code: string;
+    vehicles: Vehicle[];
+}
 
-const TimeTable  = ({ chosenStops }) => {
+interface TimeTableProps {
+    chosenStops: Stop[] 
+}
 
-    return <div  className='timetableContainer'>
+const TimeTable: React.FC<TimeTableProps> = ({ chosenStops }) => {
+
+    return <div className='timetableContainer'>
         {chosenStops.map((stop, s) => {
             const isRealTime = Boolean(stop.vehicles.find(vehicle => vehicle.realtime))
 
@@ -48,7 +69,8 @@ const TimeTable  = ({ chosenStops }) => {
                     </thead>
                     <tbody>
                         {stop.vehicles.map((vehicle, i) => {
-                            const serviceDayInMs = vehicle.serviceDay * 1000
+                            const {serviceDay } = vehicle
+                            const serviceDayInMs = serviceDay * 1000
                             const scheduledArrival = getTime(new Date(serviceDayInMs + vehicle.scheduledArrival * 1000).toString())
                             //console.log('SCHEDULED ARRIVAL', scheduledArrival)
                             const realtimeArrival = getTime(new Date(serviceDayInMs + vehicle.realtimeArrival * 1000).toString())

@@ -13,15 +13,19 @@
    }  
    .hideMobile {
     display: none;
-  }
+  }  
  }
 
+/* .timetableContainer {
+  width:100vh;
+} */
 .timetable {
   margin-top: 20px;
  }
 table {
   margin-top: 20px;
 }
+ 
  
 td {
    background-color: turquoise;

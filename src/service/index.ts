@@ -1,28 +1,7 @@
 import { client, stopQuery } from './../utils/graphQL'
+import { Vehicle, Stop} from '../types'
 
- 
-
-interface Vehicle {
-  serviceDay: number;
-  scheduledArrival: number;
-  realtime: Boolean;
-  realtimeArrival: number;
-  arrivalDelay: number;
-  scheduledDeparture: number;
-  realtimeDeparture: number;
-  departureDelay: number;
-  line: string;
-  route: string;
-  trip?: any;
-}
-
-interface Stop {
-  name: string;
-  code: string;
-  vehicles: Vehicle[];
-  stoptimesWithoutPatterns?: any;
-}
-
+  
 export const getVehicles: Stop[] | any = async (chosenStopName: string) => {
 
   const result = await client().query({ query: stopQuery(chosenStopName) })

@@ -1,8 +1,6 @@
 import { client, stopQuery } from './../utils/graphQL'
 
-interface ChosenStopName {
-  chosenStopName: string;
-}
+ 
 
 interface Vehicle {
   serviceDay: number;
@@ -25,7 +23,7 @@ interface Stop {
   stoptimesWithoutPatterns?: any;
 }
 
-export const getVehicles: Stop[] | any = async (chosenStopName: ChosenStopName) => {
+export const getVehicles: Stop[] | any = async (chosenStopName: string) => {
 
   const result = await client().query({ query: stopQuery(chosenStopName) })
   console.log('QUERY RESULT', result.data.stops)

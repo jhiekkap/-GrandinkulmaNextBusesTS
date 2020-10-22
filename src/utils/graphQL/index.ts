@@ -7,9 +7,9 @@ export const client = () => new ApolloClient({
     })
 });
 
-export const stopQuery = (choseStopName) => gql`
+export const stopQuery = (chosenStopName: string) => gql`
 {
-  stops(name: "${choseStopName}") {
+  stops(name: "${chosenStopName}") {
     gtfsId
     name
     code

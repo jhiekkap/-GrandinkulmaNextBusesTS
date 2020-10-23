@@ -11,23 +11,21 @@ input { font-size: 100%; }
 
 @media only screen and (max-width: 1200px) {
    .App {
-    padding: 5%;
-    /* font-size: 12px;  */
+    padding: 5%; 
    } 
    table {
     width:100%;
   }  
  }
-
-
+ 
 .timetable {
   margin-top: 20px;
  }
+ 
 table {
   margin-top: 20px; 
 }
- 
- 
+  
 td {
    background-color: turquoise;
    padding: 3px;

@@ -1,4 +1,5 @@
 import React from 'react';
+import StopSearch from './StopSearch'; 
 import { getTime, delayToString } from '../utils';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
@@ -10,16 +11,17 @@ import { Theme } from '@material-ui/core/styles/createMuiTheme';
 interface TimeTableProps {
     chosenStops: Stop[];
     chosenStopName: string;
+    setChosenStopName: (chosenStop: string) => void;
 }
 
-const TimeTable: React.FC<TimeTableProps> = ({ chosenStops, chosenStopName, children }) => {
+const TimeTable: React.FC<TimeTableProps> = ({ chosenStops, chosenStopName, setChosenStopName, children }) => {
     const theme: Theme = useTheme();
     const isMobile: Boolean = useMediaQuery(theme.breakpoints.down('sm'));
 
     return (
         <div className='timetableContainer'>
             <h4>{`Pysäkkihaun "${chosenStopName}"  tulo${!isMobile ? '- ja lähtö' : ''}ajat`}</h4>
-            {children}
+            <StopSearch setChosenStopName={setChosenStopName} />
             {chosenStops.map((stop, s) => {
                 const isRealTime = Boolean(stop.vehicles.find(vehicle => vehicle.realtime));
                 return <div className='timetable' key={s}>

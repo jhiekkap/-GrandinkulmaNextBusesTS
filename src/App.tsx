@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import { getVehicles } from './service';
 import { useInterval } from './utils/hooks';
-import TimeTable from './components/TimeTable';
-import StopSearch from './components/StopSearch'; 
+import TimeTable from './components/TimeTable'; 
+
+
 const App: React.FC = () => {
 
   const [chosenStops, setChosenStops] = useState([]);
@@ -29,9 +30,7 @@ const App: React.FC = () => {
  
   return (
     <div className="App"> 
-      <TimeTable chosenStops={chosenStops} chosenStopName={chosenStopName}>
-        <StopSearch setChosenStopName={setChosenStopName} />
-      </TimeTable>
+      <TimeTable chosenStops={chosenStops} chosenStopName={chosenStopName} setChosenStopName={setChosenStopName}/> 
     </div>
   );
 }

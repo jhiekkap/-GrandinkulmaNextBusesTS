@@ -8,22 +8,20 @@
 
 @media only screen and (max-width: 1200px) {
    .App {
-    padding: 1%;
-    font-size: 12px;
-   }  
-   .hideMobile {
-    display: none;
+    padding: 5%;
+    font-size: 12px; 
+   } 
+   table {
+    width:100%;
   }  
  }
 
-/* .timetableContainer {
-  width:100vh;
-} */
+
 .timetable {
   margin-top: 20px;
  }
 table {
-  margin-top: 20px;
+  margin-top: 20px; 
 }
  
  

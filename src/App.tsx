@@ -29,9 +29,9 @@ const App: React.FC = () => {
   }
 
   return (
-    <div className="App">
-      <h2>{`Pysäkkihaun "${chosenStopName}"  tulo- ja lähtöajat`}</h2>
-      <TimeTable chosenStops={chosenStops} />
+    <div className="App">{/* 
+      <h2>{`Pysäkkihaun "${chosenStopName}"  tulo- ja lähtöajat`}</h2> */}
+      <TimeTable chosenStops={chosenStops} chosenStopName={chosenStopName}/>
       <StopSearch setChosenStopName={setChosenStopName} />
     </div>
   );

@@ -3,19 +3,24 @@ import { getTime, delayToString } from '../utils';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { Stop } from '../types'
-
+import { useMediaQuery } from '@material-ui/core'
+import { useTheme } from '@material-ui/core/styles';
 
 interface TimeTableProps {
-    chosenStops: Stop[]
+    chosenStops: Stop[];
+    chosenStopName: string;
 }
 
-const TimeTable: React.FC<TimeTableProps> = ({ chosenStops }) => {
+const TimeTable: React.FC<TimeTableProps> = ({ chosenStops, chosenStopName }) => {
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
     return <div className='timetableContainer'>
         {chosenStops.map((stop, s) => {
             const isRealTime = Boolean(stop.vehicles.find(vehicle => vehicle.realtime))
 
             return <div className='timetable' key={s}>
+                <h4>{`Pysäkkihaun "${chosenStopName}"  tulo${!isMobile ? '- ja lähtö' : ''}ajat`}</h4>
                 {chosenStops.length === 2 && (s === 0 ? <ArrowForwardIcon /> : <ArrowBackIcon />)}
                 <div>{`${stop.name} ${stop.code}`}</div>
                 <table >
@@ -27,27 +32,30 @@ const TimeTable: React.FC<TimeTableProps> = ({ chosenStops }) => {
                             <td>
                                 Reitti
                             </td>
-                            <td className="hideMobile">
+                            {!isMobile && <td>
                                 Reaaliaikainen saapumistieto
-                            </td>
-                            <td>
+                            </td>}
+                            {!isMobile && <td>
                                 Aikataulun mukainen tuloaika
-                            </td>
-                            {isRealTime && <td>
+                            </td>}
+                            {isRealTime && !isMobile && <td>
                                 Arvioitu tuloaika
                             </td>}
-                            {isRealTime && <td>
+                            {isRealTime && !isMobile && <td>
                                 Tuloaika myöhässä
                             </td>}
-                            <td>
+                            {!isMobile && <td>
                                 Aikataulun mukainen lähtöaika
-                            </td>
-                            {isRealTime && <td>
+                            </td>}
+                            {isRealTime && !isMobile && <td>
                                 Arvioitu lähtöaika
                             </td>}
-                            {isRealTime && <td>
+                            {isRealTime && !isMobile && <td>
                                 Lähtöaika myöhässä
                             </td>}
+                            {isMobile && <td>
+                                Saapumisaika
+                                </td>}
                         </tr>
                     </thead>
                     <tbody>
@@ -74,26 +82,29 @@ const TimeTable: React.FC<TimeTableProps> = ({ chosenStops }) => {
                                 <td>
                                     {vehicle.route}
                                 </td>
-                                <td className="hideMobile">
+                                {!isMobile && <td>
                                     {vehicle.realtime ? 'KYLLÄ' : 'EI'}
-                                </td>
-                                <td>
+                                </td>}
+                                {!isMobile && <td>
                                     {scheduledArrival}
-                                </td>
-                                {isRealTime && <td>
+                                </td>}
+                                {isRealTime && !isMobile && <td>
                                     {realtimeArrival}
                                 </td>}
-                                {isRealTime && <td>
+                                {isRealTime && !isMobile && <td>
                                     {arrivalDelay}
                                 </td>}
-                                <td>
+                                {!isMobile && <td>
                                     {scheduledDeparture}
-                                </td>
-                                {isRealTime && <td>
+                                </td>}
+                                {isRealTime && !isMobile && <td>
                                     {realtimeDeparture}
                                 </td>}
-                                {isRealTime && <td>
+                                {isRealTime && !isMobile && <td>
                                     {departureDelay}
+                                </td>}
+                                {isMobile && <td>
+                                    {vehicle.realtime ? realtimeArrival : scheduledArrival}
                                 </td>}
                             </tr>
                         })}

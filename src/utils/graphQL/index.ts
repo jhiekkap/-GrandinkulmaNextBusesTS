@@ -37,4 +37,4 @@ export const stopQuery = (chosenStopName: string) => gql`
     }
   }
 }
-`
+`;

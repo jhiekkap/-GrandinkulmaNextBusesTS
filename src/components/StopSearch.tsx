@@ -6,12 +6,12 @@ interface StopSearchProps {
 
 const StopSearch: React.FC<StopSearchProps> = ({ setChosenStopName }) => {
 
-    const [stop, setStop] = useState('')
+    const [stop, setStop] = useState('');
 
-    const handleSubmit = (e:any): void => {
-        e.preventDefault()  
-        console.log('STOP', stop)
-        setChosenStopName(stop)
+    const handleSubmit = (e: any): void => {
+        e.preventDefault();
+        console.log('STOP', stop);
+        setChosenStopName(stop);
     }
 
     return <form onSubmit={handleSubmit}>
@@ -27,4 +27,4 @@ const StopSearch: React.FC<StopSearchProps> = ({ setChosenStopName }) => {
     </form>
 }
 
-export default StopSearch
+export default StopSearch;

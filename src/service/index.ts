@@ -1,13 +1,13 @@
-import { client, stopQuery } from './../utils/graphQL'
-import { Vehicle, Stop} from '../types'
+import { client, stopQuery } from './../utils/graphQL';
+import { Vehicle, Stop} from '../types';
 
   
 export const getVehicles: Stop[] | any = async (chosenStopName: string) => {
 
-  const result = await client().query({ query: stopQuery(chosenStopName) })
-  console.log('QUERY RESULT', result.data.stops)
+  const result = await client().query({ query: stopQuery(chosenStopName) });
+  console.log('QUERY RESULT', result.data.stops);
   return result.data.stops.map((stop: Stop) => {
-    const { name, code } = stop
+    const { name, code } = stop;
     return {
       name,
       code,
@@ -25,8 +25,8 @@ export const getVehicles: Stop[] | any = async (chosenStopName: string) => {
           departureDelay,
           line: trip.routeShortName,
           route: trip.route.longName
-        }
+        };
       })
-    }
-  })
+    };
+  });
 }

@@ -3,17 +3,11 @@ import './App.css';
 import { getVehicles } from './service';
 import { useInterval } from './utils/hooks';
 import TimeTable from './components/TimeTable';
-import StopSearch from './components/StopSearch';
-import { useMediaQuery } from '@material-ui/core'
-import { useTheme } from '@material-ui/core/styles';
-import { Theme } from '@material-ui/core/styles/createMuiTheme';
-
+import StopSearch from './components/StopSearch'; 
 const App: React.FC = () => {
 
   const [chosenStops, setChosenStops] = useState([]);
-  const [chosenStopName, setChosenStopName] = useState('Grandinkulma');
-  const theme: Theme = useTheme();
-  const isMobile: Boolean = useMediaQuery(theme.breakpoints.down('sm'));
+  const [chosenStopName, setChosenStopName] = useState('Grandinkulma'); 
 
   useInterval(() => {
     getNextVehicles();
@@ -32,13 +26,12 @@ const App: React.FC = () => {
       console.log('GRAPHQL ERROR', error);
     }
   }
-
-
+ 
   return (
-    <div className="App">
-      <h4>{`Pysäkkihaun "${chosenStopName}"  tulo${!isMobile ? '- ja lähtö' : ''}ajat`}</h4>
-      <StopSearch setChosenStopName={setChosenStopName} />
-      <TimeTable chosenStops={chosenStops} />
+    <div className="App"> 
+      <TimeTable chosenStops={chosenStops} chosenStopName={chosenStopName}>
+        <StopSearch setChosenStopName={setChosenStopName} />
+      </TimeTable>
     </div>
   );
 }

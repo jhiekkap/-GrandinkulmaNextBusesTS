@@ -9,17 +9,19 @@ import { Theme } from '@material-ui/core/styles/createMuiTheme';
 
 interface TimeTableProps {
     chosenStops: Stop[];
+    chosenStopName: string;
 }
 
-const TimeTable: React.FC<TimeTableProps> = ({ chosenStops }) => {
+const TimeTable: React.FC<TimeTableProps> = ({ chosenStops, chosenStopName, children }) => {
     const theme: Theme = useTheme();
     const isMobile: Boolean = useMediaQuery(theme.breakpoints.down('sm'));
 
     return (
         <div className='timetableContainer'>
+            <h4>{`Pysäkkihaun "${chosenStopName}"  tulo${!isMobile ? '- ja lähtö' : ''}ajat`}</h4>
+            {children}
             {chosenStops.map((stop, s) => {
                 const isRealTime = Boolean(stop.vehicles.find(vehicle => vehicle.realtime));
-
                 return <div className='timetable' key={s}>
                     {chosenStops.length === 2 && (s === 0 ? <ArrowForwardIcon /> : <ArrowBackIcon />)}
                     <div>{`${stop.name} ${stop.code}`}</div>

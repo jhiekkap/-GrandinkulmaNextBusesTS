@@ -15,11 +15,12 @@ import { Theme } from '@material-ui/core/styles/createMuiTheme';
 const TimeTable: React.FC = () => {
 
     const [chosenStops, setChosenStops] = useState<Stop[]>([]);
-    const [chosenStopName, setChosenStopName] = useState('Norotie');
+    const [chosenStopName, setChosenStopName] = useState('Grandinkulma');
     const { loading, error, data } = useQuery(STOP_QUERY, {
         variables: {
-            name: 'Grandinkulma'
-        }
+            name: chosenStopName
+        },
+        pollInterval: 5000
     });
     const [getResult, result] = useLazyQuery(STOP_QUERY);
     const theme: Theme = useTheme();
@@ -40,7 +41,7 @@ const TimeTable: React.FC = () => {
     const getStops = (name: string) => {
         getResult({ variables: { name } })
     }
- 
+
     console.log('CHOSEN STOPS', chosenStops)
 
     if (!loading) {

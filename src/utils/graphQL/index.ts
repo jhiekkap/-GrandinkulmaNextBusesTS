@@ -1,4 +1,5 @@
 import { ApolloClient, HttpLink, InMemoryCache, gql } from '@apollo/client';
+import { Vehicle, Stop } from '../../types'
 
 export const client = () => new ApolloClient({
   cache: new InMemoryCache(),
@@ -38,3 +39,29 @@ query stopQuery($name: String!) {
   }
 } 
 `; 
+
+export const parseQuery = (data: any) => {
+  return data.stops.map((stop: Stop) => {
+      const { name, code } = stop;
+      return {
+          name,
+          code,
+          vehicles: stop.stoptimesWithoutPatterns.map((vehicle: Vehicle) => {
+              const { serviceDay, scheduledArrival, realtime, realtimeArrival, arrivalDelay,
+                  scheduledDeparture, realtimeDeparture, departureDelay, trip } = vehicle
+              return {
+                  serviceDay,
+                  scheduledArrival,
+                  realtime,
+                  realtimeArrival,
+                  arrivalDelay,
+                  scheduledDeparture,
+                  realtimeDeparture,
+                  departureDelay,
+                  line: trip.routeShortName,
+                  route: trip.route.longName
+              };
+          })
+      };
+  });
+}

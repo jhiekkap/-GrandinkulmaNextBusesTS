@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import { useQuery, useLazyQuery } from '@apollo/client'
+import { STOP_QUERY, parseQuery } from './../utils/graphQL'
 import StopSearch from './StopSearch';
 import { getTime, delayToString } from '../utils';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
@@ -7,24 +9,16 @@ import { Stop } from '../types';
 import { useMediaQuery } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
-import { useQuery, useLazyQuery } from '@apollo/client'
-import { STOP_QUERY } from './../utils/graphQL'
-import { Vehicle } from './../types'
 
-/* interface TimeTableProps {
-    chosenStops: Stop[];
-    setChosenStops: (chosenStops: Stop[]) => void;
-    chosenStopName: string;
-    setChosenStopName: (chosenStop: string) => void;
-}
- */
-const TimeTable: React.FC/* <TimeTableProps> */ = ({ /* chosenStops, setChosenStops, chosenStopName, setChosenStopName */ }) => {
+
+
+const TimeTable: React.FC = () => {
 
     const [chosenStops, setChosenStops] = useState<Stop[]>([]);
     const [chosenStopName, setChosenStopName] = useState('Norotie');
     const { loading, error, data } = useQuery(STOP_QUERY, {
         variables: {
-            name: 'Grandinkulma' 
+            name: 'Grandinkulma'
         }
     });
     const [getResult, result] = useLazyQuery(STOP_QUERY);
@@ -33,52 +27,21 @@ const TimeTable: React.FC/* <TimeTableProps> */ = ({ /* chosenStops, setChosenSt
 
     useEffect(() => {
         if (result.data) {
-            setChosenStops(parseData(result.data))
+            setChosenStops(parseQuery(result.data))
         }
     }, [result])
 
     useEffect(() => {
         if (data) {
-            setChosenStops(parseData(data))
+            setChosenStops(parseQuery(data))
         }
     }, [data])
 
     const getStops = (name: string) => {
         getResult({ variables: { name } })
     }
-
-
-    console.log('DATA', data)
-
-    const parseData = (data: any) => {
-        return data.stops.map((stop: Stop) => {
-            const { name, code } = stop;
-            return {
-                name,
-                code,
-                vehicles: stop.stoptimesWithoutPatterns.map((vehicle: Vehicle) => {
-                    const { serviceDay, scheduledArrival, realtime, realtimeArrival, arrivalDelay,
-                        scheduledDeparture, realtimeDeparture, departureDelay, trip } = vehicle
-                    return {
-                        serviceDay,
-                        scheduledArrival,
-                        realtime,
-                        realtimeArrival,
-                        arrivalDelay,
-                        scheduledDeparture,
-                        realtimeDeparture,
-                        departureDelay,
-                        line: trip.routeShortName,
-                        route: trip.route.longName
-                    };
-                })
-            };
-        });
-    }
-
-    //const chosenStops: Stop[] = data && parseData(data) || null
-
-    console.log('DATA', chosenStops)
+ 
+    console.log('CHOSEN STOPS', chosenStops)
 
     if (!loading) {
         return <div className='timetableContainer'>
@@ -89,12 +52,7 @@ const TimeTable: React.FC/* <TimeTableProps> */ = ({ /* chosenStops, setChosenSt
                 const hasVehicles: Boolean = chosenStops.length > 0 && chosenStops[0].vehicles.length > 0
                 return <div className='timetable' key={s}>
                     {chosenStops.length === 2
-                        && (s === 0 ? <ArrowForwardIcon /> : <ArrowBackIcon />)
-               /*  : (chosenStops.length > 2 && chosenStops[s + 1] && stop.name === chosenStops[s + 1].name)
-                    ? <ArrowForwardIcon />
-                    : (chosenStops.length > 2 && chosenStops[s - 1] && stop.name === chosenStops[s - 1].name)
-                        ? <ArrowBackIcon />
-                        : null*/}
+                        && (s === 0 ? <ArrowForwardIcon /> : <ArrowBackIcon />)}
                     {hasVehicles ? <div>{`${stop.name} ${stop.code}`}</div> : <div>Ei tulevia lähtöjä</div>}
                     {hasVehicles &&
                         <table >
@@ -102,34 +60,34 @@ const TimeTable: React.FC/* <TimeTableProps> */ = ({ /* chosenStops, setChosenSt
                                 <tr>
                                     <td>
                                         Linja
-                         </td>
+                                    </td>
                                     <td>
                                         Reitti
-                        </td>
+                                    </td>
                                     {!isMobile && <td>
                                         Reaaliaikainen saapumistieto
-                        </td>}
+                                    </td>}
                                     {!isMobile && <td>
                                         Aikataulun mukainen tuloaika
-                        </td>}
+                                    </td>}
                                     {isRealTime && !isMobile && <td>
                                         Arvioitu tuloaika
-                        </td>}
+                                    </td>}
                                     {isRealTime && !isMobile && <td>
                                         Tuloaika myöhässä
-                        </td>}
+                                    </td>}
                                     {!isMobile && <td>
                                         Aikataulun mukainen lähtöaika
-                        </td>}
+                                    </td>}
                                     {isRealTime && !isMobile && <td>
                                         Arvioitu lähtöaika
-                        </td>}
+                                    </td>}
                                     {isRealTime && !isMobile && <td>
                                         Lähtöaika myöhässä
-                        </td>}
+                                    </td>}
                                     {isMobile && <td>
                                         Tuloaika
-                        </td>}
+                                    </td>}
                                 </tr>
                             </thead>
                             <tbody>

@@ -13,14 +13,14 @@ const StopSearch: React.FC<StopSearchProps> = ({ setChosenStopName, getStops }) 
         e.preventDefault();
         console.log('STOP', stop);
         getStops(stop);
-        //setChosenStopName(stop);
+        setChosenStopName(stop);
     }
 
     return (
         <form onSubmit={handleSubmit}>
             <label>
                 Kokeile toista pysäkkiä:
-            <input
+                <input
                     type="text"
                     value={stop}
                     onChange={(e) => setStop(e.target.value)}

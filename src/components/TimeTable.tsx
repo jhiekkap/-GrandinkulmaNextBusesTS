@@ -7,19 +7,57 @@ import { Stop } from '../types';
 import { useMediaQuery } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
+import { useQuery } from '@apollo/client'
+import { stopQuery } from './../utils/graphQL'
+import { Vehicle } from './../types'
 
 interface TimeTableProps {
-    chosenStops: Stop[];
+    /*  chosenStops: Stop[]; */
     chosenStopName: string;
     setChosenStopName: (chosenStop: string) => void;
 }
 
-const TimeTable: React.FC<TimeTableProps> = ({ chosenStops, chosenStopName, setChosenStopName, children }) => {
+const TimeTable: React.FC<TimeTableProps> = ({/*  chosenStops, */ chosenStopName, setChosenStopName, children }) => {
+
+    const { loading, error, data } = useQuery(stopQuery(chosenStopName));
     const theme: Theme = useTheme();
     const isMobile: Boolean = useMediaQuery(theme.breakpoints.down('sm'));
 
-    return (
-        <div className='timetableContainer'>
+
+    console.log('DATA', data)
+
+    const parseData = (data: any) => {
+        return data.stops.map((stop: Stop) => {
+            const { name, code } = stop;
+            return {
+                name,
+                code,
+                vehicles: stop.stoptimesWithoutPatterns.map((vehicle: Vehicle) => {
+                    const { serviceDay, scheduledArrival, realtime, realtimeArrival, arrivalDelay,
+                        scheduledDeparture, realtimeDeparture, departureDelay, trip } = vehicle
+                    return {
+                        serviceDay,
+                        scheduledArrival,
+                        realtime,
+                        realtimeArrival,
+                        arrivalDelay,
+                        scheduledDeparture,
+                        realtimeDeparture,
+                        departureDelay,
+                        line: trip.routeShortName,
+                        route: trip.route.longName
+                    };
+                })
+            };
+        });
+    }
+
+    const chosenStops: Stop[] = data && parseData(data) || null
+
+    console.log('DATA', chosenStops)
+
+    if (!loading) {
+        return <div className='timetableContainer'>
             <h4>{`Pysäkkihaun "${chosenStopName}"  tulo${!isMobile ? '- ja lähtö' : ''}ajat`}</h4>
             <StopSearch setChosenStopName={setChosenStopName} />
             {chosenStops.map((stop, s) => {
@@ -28,11 +66,11 @@ const TimeTable: React.FC<TimeTableProps> = ({ chosenStops, chosenStopName, setC
                 return <div className='timetable' key={s}>
                     {chosenStops.length === 2
                         && (s === 0 ? <ArrowForwardIcon /> : <ArrowBackIcon />)
-                       /*  : (chosenStops.length > 2 && chosenStops[s + 1] && stop.name === chosenStops[s + 1].name)
-                            ? <ArrowForwardIcon />
-                            : (chosenStops.length > 2 && chosenStops[s - 1] && stop.name === chosenStops[s - 1].name)
-                                ? <ArrowBackIcon />
-                                : null*/}
+               /*  : (chosenStops.length > 2 && chosenStops[s + 1] && stop.name === chosenStops[s + 1].name)
+                    ? <ArrowForwardIcon />
+                    : (chosenStops.length > 2 && chosenStops[s - 1] && stop.name === chosenStops[s - 1].name)
+                        ? <ArrowBackIcon />
+                        : null*/}
                     {hasVehicles ? <div>{`${stop.name} ${stop.code}`}</div> : <div>Ei tulevia lähtöjä</div>}
                     {hasVehicles &&
                         <table >
@@ -40,34 +78,34 @@ const TimeTable: React.FC<TimeTableProps> = ({ chosenStops, chosenStopName, setC
                                 <tr>
                                     <td>
                                         Linja
-                                 </td>
+                         </td>
                                     <td>
                                         Reitti
-                                </td>
+                        </td>
                                     {!isMobile && <td>
                                         Reaaliaikainen saapumistieto
-                                </td>}
+                        </td>}
                                     {!isMobile && <td>
                                         Aikataulun mukainen tuloaika
-                                </td>}
+                        </td>}
                                     {isRealTime && !isMobile && <td>
                                         Arvioitu tuloaika
-                                </td>}
+                        </td>}
                                     {isRealTime && !isMobile && <td>
                                         Tuloaika myöhässä
-                                </td>}
+                        </td>}
                                     {!isMobile && <td>
                                         Aikataulun mukainen lähtöaika
-                                </td>}
+                        </td>}
                                     {isRealTime && !isMobile && <td>
                                         Arvioitu lähtöaika
-                                </td>}
+                        </td>}
                                     {isRealTime && !isMobile && <td>
                                         Lähtöaika myöhässä
-                                </td>}
+                        </td>}
                                     {isMobile && <td>
                                         Tuloaika
-                                </td>}
+                        </td>}
                                 </tr>
                             </thead>
                             <tbody>
@@ -125,7 +163,9 @@ const TimeTable: React.FC<TimeTableProps> = ({ chosenStops, chosenStopName, setC
                 </div>
             })}
         </div>
-    )
+    } else {
+        return null
+    }
 }
 
 

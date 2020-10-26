@@ -8,15 +8,15 @@ import TimeTable from './components/TimeTable';
 const App: React.FC = () => {
 
   const [chosenStops, setChosenStops] = useState([]);
-  const [chosenStopName, setChosenStopName] = useState('Grandinkulma'); 
+  const [chosenStopName, setChosenStopName] = useState('Tikkurila'); 
 
-  useInterval(() => {
+  /* useInterval(() => {
     getNextVehicles();
-  }, 10000);
+  }, 10000); */
 
-  useEffect(() => {
+  /* useEffect(() => {
     getNextVehicles();
-  }, [chosenStopName]);
+  }, [chosenStopName]); */
 
   const getNextVehicles: () => Promise<void> = async () => {
     try {
@@ -30,7 +30,7 @@ const App: React.FC = () => {
  
   return (
     <div className="App"> 
-      <TimeTable chosenStops={chosenStops} chosenStopName={chosenStopName} setChosenStopName={setChosenStopName}/> 
+      <TimeTable /* chosenStops={chosenStops} */ chosenStopName={chosenStopName} setChosenStopName={setChosenStopName}/> 
     </div>
   );
 }

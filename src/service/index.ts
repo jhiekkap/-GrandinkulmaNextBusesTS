@@ -1,10 +1,10 @@
-import { client, stopQuery } from './../utils/graphQL';
+import { client, STOP_QUERY } from './../utils/graphQL';
 import { Vehicle, Stop } from '../types';
 
 
 export const getVehicles: Stop[] | any = async (chosenStopName: string) => {
 
-  const result = await client().query({ query: stopQuery(chosenStopName) });
+  const result = await client().query({ query: STOP_QUERY/* (chosenStopName) */ });
   console.log('QUERY RESULT', result.data.stops);
   return result.data.stops.map((stop: Stop) => {
     const { name, code } = stop;

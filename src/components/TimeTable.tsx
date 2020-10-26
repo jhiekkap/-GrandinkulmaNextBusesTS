@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import StopSearch from './StopSearch';
 import { getTime, delayToString } from '../utils';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
@@ -7,21 +7,45 @@ import { Stop } from '../types';
 import { useMediaQuery } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
-import { useQuery } from '@apollo/client'
-import { stopQuery } from './../utils/graphQL'
+import { useQuery, useLazyQuery } from '@apollo/client'
+import { STOP_QUERY } from './../utils/graphQL'
 import { Vehicle } from './../types'
 
-interface TimeTableProps {
-    /*  chosenStops: Stop[]; */
+/* interface TimeTableProps {
+    chosenStops: Stop[];
+    setChosenStops: (chosenStops: Stop[]) => void;
     chosenStopName: string;
     setChosenStopName: (chosenStop: string) => void;
 }
+ */
+const TimeTable: React.FC/* <TimeTableProps> */ = ({ /* chosenStops, setChosenStops, chosenStopName, setChosenStopName */ }) => {
 
-const TimeTable: React.FC<TimeTableProps> = ({/*  chosenStops, */ chosenStopName, setChosenStopName, children }) => {
-
-    const { loading, error, data } = useQuery(stopQuery(chosenStopName));
+    const [chosenStops, setChosenStops] = useState<Stop[]>([]);
+    const [chosenStopName, setChosenStopName] = useState('Norotie');
+    const { loading, error, data } = useQuery(STOP_QUERY, {
+        variables: {
+            name: 'Grandinkulma' 
+        }
+    });
+    const [getResult, result] = useLazyQuery(STOP_QUERY);
     const theme: Theme = useTheme();
     const isMobile: Boolean = useMediaQuery(theme.breakpoints.down('sm'));
+
+    useEffect(() => {
+        if (result.data) {
+            setChosenStops(parseData(result.data))
+        }
+    }, [result])
+
+    useEffect(() => {
+        if (data) {
+            setChosenStops(parseData(data))
+        }
+    }, [data])
+
+    const getStops = (name: string) => {
+        getResult({ variables: { name } })
+    }
 
 
     console.log('DATA', data)
@@ -52,15 +76,15 @@ const TimeTable: React.FC<TimeTableProps> = ({/*  chosenStops, */ chosenStopName
         });
     }
 
-    const chosenStops: Stop[] = data && parseData(data) || null
+    //const chosenStops: Stop[] = data && parseData(data) || null
 
     console.log('DATA', chosenStops)
 
     if (!loading) {
         return <div className='timetableContainer'>
             <h4>{`Pysäkkihaun "${chosenStopName}"  tulo${!isMobile ? '- ja lähtö' : ''}ajat`}</h4>
-            <StopSearch setChosenStopName={setChosenStopName} />
-            {chosenStops.map((stop, s) => {
+            <StopSearch setChosenStopName={setChosenStopName} getStops={getStops} />
+            {chosenStops.map((stop: Stop, s) => {
                 const isRealTime: Boolean = Boolean(stop.vehicles.find(vehicle => vehicle.realtime));
                 const hasVehicles: Boolean = chosenStops.length > 0 && chosenStops[0].vehicles.length > 0
                 return <div className='timetable' key={s}>

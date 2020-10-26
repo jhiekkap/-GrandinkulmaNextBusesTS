@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import { getVehicles } from './service';
 import { useInterval } from './utils/hooks';
-import TimeTable from './components/TimeTable'; 
+import TimeTable from './components/TimeTable';
 
 
 const App: React.FC = () => {
 
   const [chosenStops, setChosenStops] = useState([]);
-  const [chosenStopName, setChosenStopName] = useState('Tikkurila'); 
+  const [chosenStopName, setChosenStopName] = useState('Tikkurila');
 
   /* useInterval(() => {
     getNextVehicles();
@@ -27,10 +27,10 @@ const App: React.FC = () => {
       console.log('GRAPHQL ERROR', error);
     }
   }
- 
+
   return (
-    <div className="App"> 
-      <TimeTable /* chosenStops={chosenStops} */ chosenStopName={chosenStopName} setChosenStopName={setChosenStopName}/> 
+    <div className="App">
+      <TimeTable /* chosenStops={chosenStops} setChosenStops={setChosenStops} chosenStopName={chosenStopName} setChosenStopName={setChosenStopName}  *//>
     </div>
   );
 }

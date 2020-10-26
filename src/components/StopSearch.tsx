@@ -2,16 +2,18 @@ import React, { useState } from 'react';
 
 interface StopSearchProps {
     setChosenStopName: (chosenStop: string) => void;
+    getStops: (name: string) => void;
 }
 
-const StopSearch: React.FC<StopSearchProps> = ({ setChosenStopName }) => {
+const StopSearch: React.FC<StopSearchProps> = ({ setChosenStopName, getStops }) => {
 
     const [stop, setStop] = useState('');
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
         console.log('STOP', stop);
-        setChosenStopName(stop);
+        getStops(stop);
+        //setChosenStopName(stop);
     }
 
     return (

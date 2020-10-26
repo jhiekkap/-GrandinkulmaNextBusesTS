@@ -1,36 +1,12 @@
-import React, { useState, useEffect } from 'react';
-import './App.css';
-import { getVehicles } from './service';
-import { useInterval } from './utils/hooks';
-import TimeTable from './components/TimeTable'; 
-
-
+import React  from 'react';
+import './App.css'; 
+import TimeTable from './components/TimeTable';
+ 
 const App: React.FC = () => {
-
-  const [chosenStops, setChosenStops] = useState([]);
-  const [chosenStopName, setChosenStopName] = useState('Grandinkulma'); 
-
-  useInterval(() => {
-    getNextVehicles();
-  }, 10000);
-
-  useEffect(() => {
-    getNextVehicles();
-  }, [chosenStopName]);
-
-  const getNextVehicles: () => Promise<void> = async () => {
-    try {
-      const result: any = await getVehicles(chosenStopName);
-      console.log('GET VEHICLES RESULT', result);
-      setChosenStops(result);
-    } catch (error) {
-      console.log('GRAPHQL ERROR', error);
-    }
-  }
  
   return (
-    <div className="App"> 
-      <TimeTable chosenStops={chosenStops} chosenStopName={chosenStopName} setChosenStopName={setChosenStopName}/> 
+    <div className="App">
+      <TimeTable />
     </div>
   );
 }

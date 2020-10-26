@@ -1,27 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState } from 'react'; 
 
-interface StopSearchProps {
-    setChosenStopName: (chosenStop: string) => void;
+interface StopSearchProps { 
+    setStop: (stop: string) => void;
+    getStops: (name: string) => void;
 }
 
-const StopSearch: React.FC<StopSearchProps> = ({ setChosenStopName }) => {
+const StopSearch: React.FC<StopSearchProps> = ({setStop, getStops }) => {
 
-    const [stop, setStop] = useState('');
+    const [stopName, setStopName] = useState('');
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
-        console.log('STOP', stop);
-        setChosenStopName(stop);
+        console.log('STOP', stopName);
+        getStops(stopName);
+        setStop(stopName);
     }
 
     return (
         <form onSubmit={handleSubmit}>
             <label>
                 Kokeile toista pysäkkiä:
-            <input
+                <input
                     type="text"
-                    value={stop}
-                    onChange={(e) => setStop(e.target.value)}
+                    value={stopName}
+                    onChange={(e) => setStopName(e.target.value)}
                 />
             </label>
             <button type='submit'>Lähetä</button>

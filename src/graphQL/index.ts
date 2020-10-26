@@ -1,13 +1,13 @@
 import { ApolloClient, HttpLink, InMemoryCache, gql } from '@apollo/client';
-import { Vehicle, Stop } from '../../types'
+import { Vehicle, Stop } from '../types'
 
-export const client = () => new ApolloClient({
+export const client =  new ApolloClient({
   cache: new InMemoryCache(),
   link: new HttpLink({
     uri: 'https://api.digitransit.fi/routing/v1/routers/hsl/index/graphql',
   })
 });
-
+ 
 export const STOP_QUERY =  gql`
 query stopQuery($name: String!) { 
   stops(name: $name) {

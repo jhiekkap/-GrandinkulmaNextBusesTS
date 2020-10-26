@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useQuery, useLazyQuery } from '@apollo/client'
-import { STOP_QUERY, parseQuery } from './../utils/graphQL'
+import { STOP_QUERY, parseQuery } from '../graphQL'
 import StopSearch from './StopSearch';
 import { getTime, delayToString } from '../utils';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
@@ -10,15 +10,14 @@ import { useMediaQuery } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 
-
-
+ 
 const TimeTable: React.FC = () => {
 
-    const [chosenStops, setChosenStops] = useState<Stop[]>([]);
-    const [chosenStopName, setChosenStopName] = useState('Grandinkulma');
+    const [stops, setStops] = useState<Stop[]>([]);
+    const [stop, setStop] = useState('Grandinkulma');
     const { loading, error, data } = useQuery(STOP_QUERY, {
         variables: {
-            name: chosenStopName
+            name: stop
         },
         pollInterval: 5000
     });
@@ -28,13 +27,13 @@ const TimeTable: React.FC = () => {
 
     useEffect(() => {
         if (result.data) {
-            setChosenStops(parseQuery(result.data))
+            setStops(parseQuery(result.data))
         }
     }, [result])
 
     useEffect(() => {
         if (data) {
-            setChosenStops(parseQuery(data))
+            setStops(parseQuery(data))
         }
     }, [data])
 
@@ -42,17 +41,17 @@ const TimeTable: React.FC = () => {
         getResult({ variables: { name } })
     }
 
-    console.log('CHOSEN STOPS', chosenStops)
+    console.log('CHOSEN STOPS', stops)
 
     if (!loading) {
         return <div className='timetableContainer'>
-            <h4>{`Pysäkkihaun "${chosenStopName}"  tulo${!isMobile ? '- ja lähtö' : ''}ajat`}</h4>
-            <StopSearch setChosenStopName={setChosenStopName} getStops={getStops} />
-            {chosenStops.map((stop: Stop, s) => {
+            <h4>{`Pysäkkihaun "${stop}"  tulo${!isMobile ? '- ja lähtö' : ''}ajat`}</h4>
+            <StopSearch setStop={setStop} getStops={getStops} />
+            {stops.map((stop: Stop, s) => {
                 const isRealTime: Boolean = Boolean(stop.vehicles.find(vehicle => vehicle.realtime));
-                const hasVehicles: Boolean = chosenStops.length > 0 && chosenStops[0].vehicles.length > 0
+                const hasVehicles: Boolean = stops.length > 0 && stops[0].vehicles.length > 0
                 return <div className='timetable' key={s}>
-                    {chosenStops.length === 2
+                    {stops.length === 2
                         && (s === 0 ? <ArrowForwardIcon /> : <ArrowBackIcon />)}
                     {hasVehicles ? <div>{`${stop.name} ${stop.code}`}</div> : <div>Ei tulevia lähtöjä</div>}
                     {hasVehicles &&

@@ -18,39 +18,39 @@ interface VehicleVars {
 const TimeTable: React.FC = () => {
 
     const [stops, setStops] = useState<Stop[]>([]);
-    const [stop, setStop] = useState('Grandinkulma');
-    const { loading, error, data } = useQuery<Vehicle, VehicleVars>(STOP_QUERY, {
+    const [stopName, setStopName] = useState('Grandinkulma');
+    const initialStopQuery = useQuery<Vehicle, VehicleVars>(STOP_QUERY, {
         variables: {
-            name: stop
+            name: stopName
         },
         pollInterval: 5000
     });
-    const [getResult, result] = useLazyQuery<Vehicle, VehicleVars>(STOP_QUERY);
+    const [getStopsQuery, updatedStops] = useLazyQuery<Vehicle, VehicleVars>(STOP_QUERY);
     const theme: Theme = useTheme();
     const isMobile: Boolean = useMediaQuery(theme.breakpoints.down('sm'));
 
     useEffect(() => {
-        if (result.data) {
-            setStops(parseQuery(result.data));
+        if (updatedStops.data) {
+            setStops(parseQuery(updatedStops.data));
         }
-    }, [result]);
+    }, [updatedStops]);
 
     useEffect(() => {
-        if (data) {
-            setStops(parseQuery(data));
+        if (initialStopQuery.data) {
+            setStops(parseQuery(initialStopQuery.data));
         }
-    }, [data]);
+    }, [initialStopQuery]);
 
-    const getStops = (name: string) => {
-        getResult({ variables: { name } });
+    const getStopsByName  = (name: string) => {
+        getStopsQuery({ variables: { name } });
     }
 
     console.log('CHOSEN STOPS', stops);
 
 
     return <div className='timetableContainer'>
-        <h4>{`Pysäkkihaun "${stop}"  tulo${!isMobile ? '- ja lähtö' : ''}ajat`}</h4>
-        <StopSearch setStop={setStop} getStops={getStops} />
+        <h4>{`Pysäkkihaun "${stopName}"  tulo${!isMobile ? '- ja lähtö' : ''}ajat`}</h4>
+        <StopSearch setStopName={setStopName} getStopsByName ={getStopsByName } />
         {stops.length > 0 ? <div>
             {stops.map((stop: Stop, s) => {
                 const isRealTime: Boolean = Boolean(stop.vehicles.find(vehicle => vehicle.realtime));
@@ -153,7 +153,7 @@ const TimeTable: React.FC = () => {
                 )
             })}
         </div>
-            : <div>EI STOPPEJA</div>}
+            : <div>Ei pysäkkejä</div>}
     </div>
 }
 

@@ -10,7 +10,6 @@ import { useMediaQuery } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import { Vehicle } from '../types'
-import { StorefrontSharp } from '@material-ui/icons';
 
 interface VehicleVars {
     name: string;
@@ -20,12 +19,14 @@ const TimeTable: React.FC = () => {
 
     const [stops, setStops] = useState<Stop[]>([]);
     const [stopName, setStopName] = useState('Grandinkulma');
-    const initialStopQuery = useQuery<Vehicle, VehicleVars>(STOP_QUERY, {
-        variables: {
-            name: stopName
-        },
-        pollInterval: 5000
-    });
+    const initialStopQuery = useQuery<Vehicle, VehicleVars>(
+        STOP_QUERY,
+        {
+            variables: {
+                name: stopName
+            },
+            pollInterval: 5000
+        });
     const [getStopsQuery, updatedStops] = useLazyQuery<Vehicle, VehicleVars>(STOP_QUERY);
     const theme: Theme = useTheme();
     const isMobile: Boolean = useMediaQuery(theme.breakpoints.down('sm'));

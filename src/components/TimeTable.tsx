@@ -51,7 +51,7 @@ const TimeTable: React.FC = () => {
 
 
     return <div className='timetableContainer'>
-        <h4>{`Pysäkkihaun "${stopName}"  tulo${!isMobile ? '- ja lähtö' : ''}ajat`}</h4>
+        <h4>{`Haun "${stopName}"  tulo${!isMobile ? '- ja lähtö' : ''}ajat`}</h4>
         <StopSearch setStopName={setStopName} getStopsByName={getStopsByName} />
         {stops.length > 0 ? <div>
             {stops.map((stop: Stop, s) => {

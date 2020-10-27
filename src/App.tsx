@@ -6,6 +6,7 @@ const App: React.FC = () => {
  
   return (
     <div className="App">
+      <h1>PYSÄKKIHAKU</h1>
       <TimeTable />
     </div>
   );

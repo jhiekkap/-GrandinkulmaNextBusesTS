@@ -9,7 +9,8 @@ export interface Vehicle {
     departureDelay: number;
     line: string;
     route: string;
-    trip?: any;
+    trip?: any; 
+    direction: number | undefined;
 }
 
 export interface Stop {

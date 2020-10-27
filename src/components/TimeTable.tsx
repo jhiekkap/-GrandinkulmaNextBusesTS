@@ -10,10 +10,11 @@ import { useMediaQuery } from '@material-ui/core';
 import { useTheme } from '@material-ui/core/styles';
 import { Theme } from '@material-ui/core/styles/createMuiTheme';
 import { Vehicle } from '../types'
+import { StorefrontSharp } from '@material-ui/icons';
 
 interface VehicleVars {
     name: string;
-  }
+}
 
 const TimeTable: React.FC = () => {
 
@@ -41,7 +42,7 @@ const TimeTable: React.FC = () => {
         }
     }, [initialStopQuery]);
 
-    const getStopsByName  = (name: string) => {
+    const getStopsByName = (name: string) => {
         getStopsQuery({ variables: { name } });
     }
 
@@ -50,7 +51,7 @@ const TimeTable: React.FC = () => {
 
     return <div className='timetableContainer'>
         <h4>{`Pysäkkihaun "${stopName}"  tulo${!isMobile ? '- ja lähtö' : ''}ajat`}</h4>
-        <StopSearch setStopName={setStopName} getStopsByName ={getStopsByName } />
+        <StopSearch setStopName={setStopName} getStopsByName={getStopsByName} />
         {stops.length > 0 ? <div>
             {stops.map((stop: Stop, s) => {
                 const isRealTime: Boolean = Boolean(stop.vehicles.find(vehicle => vehicle.realtime));
@@ -58,8 +59,9 @@ const TimeTable: React.FC = () => {
 
                 return (
                     <div className='timetable' key={s}>
-                        {stops.length === 2
-                            && (s === 0 ? <ArrowForwardIcon /> : <ArrowBackIcon />)}
+                        {/* {stops.length === 2
+                            && (s === 0 ? } */}
+                        {/* {stops.length >= 2 && (stop.vehicles[0].direction ? <ArrowForwardIcon /> : <ArrowBackIcon />)} */}
                         {hasVehicles ? <div>{`${stop.name} ${stop.code}`}</div> : <div>Ei tulevia lähtöjä</div>}
                         {hasVehicles &&
                             <table >
@@ -99,7 +101,8 @@ const TimeTable: React.FC = () => {
                                 </thead>
                                 <tbody>
                                     {stop.vehicles.map((vehicle, i) => {
-                                        const { serviceDay, line, route, realtime } = vehicle;
+                                        const { serviceDay, line, route, realtime, direction } = vehicle;
+                                        const sortedRoute = direction ? route.split('-').reverse().join('-') : route; 
                                         const serviceDayInMs = serviceDay * 1000;
                                         const scheduledArrival = getTime(new Date(serviceDayInMs + vehicle.scheduledArrival * 1000).toString());
                                         //console.log('SCHEDULED ARRIVAL', scheduledArrival);
@@ -119,7 +122,7 @@ const TimeTable: React.FC = () => {
                                                 {line}
                                             </td>
                                             <td>
-                                                {route}
+                                                {sortedRoute}
                                             </td>
                                             {!isMobile && <td>
                                                 {realtime ? 'KYLLÄ' : 'EI'}

@@ -59,9 +59,8 @@ const TimeTable: React.FC = () => {
 
                 return (
                     <div className='timetable' key={s}>
-                        {/* {stops.length === 2
-                            && (s === 0 ? } */}
-                        {/* {stops.length >= 2 && (stop.vehicles[0].direction ? <ArrowForwardIcon /> : <ArrowBackIcon />)} */}
+                        {stops.length === 2
+                            && (s === 0 ? <ArrowForwardIcon /> : <ArrowBackIcon />)}
                         {hasVehicles ? <div>{`${stop.name} ${stop.code}`}</div> : <div>Ei tulevia lähtöjä</div>}
                         {hasVehicles &&
                             <table >
@@ -102,7 +101,7 @@ const TimeTable: React.FC = () => {
                                 <tbody>
                                     {stop.vehicles.map((vehicle, i) => {
                                         const { serviceDay, line, route, realtime, direction } = vehicle;
-                                        const sortedRoute = direction ? route.split('-').reverse().join('-') : route; 
+                                        const sortedRoute = direction ? route.split('-').reverse().join('-') : route;
                                         const serviceDayInMs = serviceDay * 1000;
                                         const scheduledArrival = getTime(new Date(serviceDayInMs + vehicle.scheduledArrival * 1000).toString());
                                         //console.log('SCHEDULED ARRIVAL', scheduledArrival);

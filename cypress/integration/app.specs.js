@@ -4,12 +4,6 @@ describe('Stop searc', function() {
       cy.contains('PYSÄKKIHAKU'); 
     })
 
-    /* it('response to empty search', function() {  
-      cy.get('button').click(); 
-      cy.contains('Haun "Norotie" tulo- ja lähtöajat'); 
-      cy.contains('Elielinaukio-Martinlaakso-Kalajärvi');
-    }) */
-
     it('fill and submit stop search form ', function() { 
       cy.get('input').type('Norotie'); 
       cy.get('button').click(); 

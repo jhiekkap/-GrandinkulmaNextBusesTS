@@ -6,8 +6,7 @@ import { client } from '../src/graphQL'
 import '@testing-library/jest-dom/extend-expect'
 import { prettyDOM } from '@testing-library/dom'
 
-
-
+ 
 describe('<App />', () => {
 
   let component:any;
@@ -20,27 +19,15 @@ describe('<App />', () => {
   })
 
   test('renders search title', () => {
-    /* const { getByText } = render(
-      <ApolloProvider client={client}>
-        <App />
-      </ApolloProvider>); */
-
-
+      
     const linkElement = component.getByText(/PYSÄKKIHAKU/i);
     expect(linkElement).toBeInTheDocument();
   });
 
-  test('renders content', () => {
-
-
-    /*  component = render(
-      <ApolloProvider client={client}>
-        <App />
-      </ApolloProvider>);
- */
-
+  test('renders page title', () => {
+ 
     const body = component.container.querySelector('body')
-    //console.log(prettyDOM(body))
+    console.log(prettyDOM(body))
     // component.debug()
 
     // tapa 1
@@ -55,10 +42,10 @@ describe('<App />', () => {
     expect(element).toBeDefined()
 
     // tapa 3
-    /*  const div = component.container.querySelector('body')
+     const div = component.container.querySelector('.App')
      expect(div).toHaveTextContent(
        'PYSÄKKIHAKU'
-     ) */
+     )
 
   }); 
 });

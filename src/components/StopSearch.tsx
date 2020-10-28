@@ -14,6 +14,7 @@ const StopSearch: React.FC<StopSearchProps> = ({setStopName, getStopsByName  }) 
         console.log('STOP', name);
         getStopsByName (name);
         setStopName(name);
+        setName('')
     }
 
     return (

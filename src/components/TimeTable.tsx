@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useQuery, useLazyQuery } from '@apollo/client'
 import { STOP_QUERY, parseQuery } from '../graphQL'
 import StopSearch from './StopSearch';
-import { getTime, delayToString } from '../utils';
+import { getTime, delayToString, parseVehicle } from '../utils';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { Stop } from '../types';
@@ -100,22 +100,10 @@ const TimeTable: React.FC = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {stop.vehicles.map((vehicle, i) => {
-                                        const { serviceDay, line, route, realtime, direction } = vehicle;
-                                        const sortedRoute = direction ? route.split('-').reverse().join('-') : route;
-                                        const serviceDayInMs = serviceDay * 1000;
-                                        const scheduledArrival = getTime(new Date(serviceDayInMs + vehicle.scheduledArrival * 1000));
-                                        //console.log('SCHEDULED ARRIVAL', scheduledArrival);
-                                        const realtimeArrival = getTime(new Date(serviceDayInMs + vehicle.realtimeArrival * 1000));
-                                        //console.log('REAL TIME ARRIVAL', realtimeArrival);
-                                        const arrivalDelay = delayToString(vehicle.arrivalDelay);
-                                        //console.log('ARRIVAL DELAY ', arrivalDelay);
-                                        const scheduledDeparture = getTime(new Date(serviceDayInMs + vehicle.scheduledDeparture * 1000));
-                                        //console.log('SCHEDULED DEPARTURE', scheduledDeparture);
-                                        const realtimeDeparture = getTime(new Date(serviceDayInMs + vehicle.realtimeDeparture * 1000));
-                                        //console.log('REAL TIME DEPARTURE', realtimeDeparture);
-                                        const departureDelay = delayToString(vehicle.departureDelay);
-                                        //console.log('DEPARTURE DELAY ', departureDelay);
+                                    {stop.vehicles.map((vehicle, i) => { 
+
+                                        const { line, sortedRoute, realtime, scheduledArrival, realtimeArrival, 
+                                            arrivalDelay, scheduledDeparture, realtimeDeparture, departureDelay } = parseVehicle(vehicle)
 
                                         return <tr key={i}>
                                             <td>

@@ -7,11 +7,11 @@ import { parseVehicle } from '../utils';
 const Td = withStyles((theme: Theme) =>
   createStyles({
     head: {
-      backgroundColor: theme.palette.common.white,//'#115293',// theme.palette.common.black,
-      color: theme.palette.common.black,//theme.palette.common.white,
+      backgroundColor: theme.palette.common.white,
+      color: theme.palette.common.black,
     },
     body: {
-      fontSize:16,
+      fontSize: 16,
     },
   }),
 )(TableCell);
@@ -29,7 +29,7 @@ const Tr = withStyles((theme: Theme) =>
 
 const useStyles = makeStyles((theme) => ({
   table: {
-   // minWidth: 700,
+    // minWidth: 700,
     [theme.breakpoints.down('sm')]: {
       width: '100%'
     },

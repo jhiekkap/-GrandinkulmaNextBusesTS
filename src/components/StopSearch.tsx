@@ -54,7 +54,7 @@ const StopSearch: React.FC = () => {
                         size="medium"
                         type="submit"
                     >
-                        Hae
+                        HAE
                  </Button>
                 </Grid>
             </Grid>

@@ -20,10 +20,8 @@ query stopQuery($name: String!) {
       scheduledDeparture
       realtimeDeparture
       departureDelay
-      realtime
-      realtimeState
-      serviceDay
-      headsign
+      realtime 
+      serviceDay 
       realtimeArrival
       trip{
         pattern{
@@ -31,8 +29,7 @@ query stopQuery($name: String!) {
         }
         route{
           longName
-        }
-        tripShortName
+        } 
         routeShortName
       } 
     }

@@ -13,7 +13,7 @@ const App: React.FC = () => {
   const isMobile: Boolean = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
-    <Container maxWidth='md'>
+    <Container className="App" maxWidth='md'>
       <h3>PYSÄKKIHAKU</h3>
       <StopSearch /> 
       <h4>{`Haun "${stopName}" pysäkit ja tulo${!isMobile ? '- ja lähtö' : ''}ajat:`}</h4>

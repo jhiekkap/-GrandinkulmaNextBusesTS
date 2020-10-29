@@ -25,7 +25,9 @@ const StopSearch: React.FC = () => {
                     onChange={(e) => setName(e.target.value)}
                 />
             </label>
-            <button type='submit'>Lähetä</button>
+            <div>
+                <button type='submit'>Lähetä</button>
+            </div>
         </form>
     );
 }

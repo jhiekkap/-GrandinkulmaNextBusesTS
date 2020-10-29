@@ -7,11 +7,11 @@ import { parseVehicle } from '../utils';
 const Td = withStyles((theme: Theme) =>
   createStyles({
     head: {
-      backgroundColor: theme.palette.common.black,
-      color: theme.palette.common.white,
+      backgroundColor: theme.palette.common.white,//'#115293',// theme.palette.common.black,
+      color: theme.palette.common.black,//theme.palette.common.white,
     },
     body: {
-      fontSize: 14,
+      fontSize:16,
     },
   }),
 )(TableCell);
@@ -50,16 +50,16 @@ const TimeTable: React.FC<TableProps> = ({ stop, isMobile, isRealTime }) => {
       <Table className={classes.table} aria-label="customized table">
         <TableHead>
           <TableRow>
-            <Td>Linja</Td>
-            <Td>Reitti</Td>
-            {!isMobile && <Td>Reaaliaikainen saapumistieto</Td>}
-            {!isMobile && <Td>Aikataulun mukainen tuloaika </Td>}
-            {isRealTime && !isMobile && <Td>Arvioitu tuloaika</Td>}
-            {isRealTime && !isMobile && <Td>Tuloaika myöhässä</Td>}
-            {!isMobile && <Td>Aikataulun mukainen lähtöaika</Td>}
-            {isRealTime && !isMobile && <Td>Arvioitu lähtöaika</Td>}
-            {isRealTime && !isMobile && <Td>Lähtöaika myöhässä</Td>}
-            {isMobile && <Td>Tuloaika</Td>}
+            <Td align="center">Linja</Td>
+            <Td align="center">Reitti</Td>
+            {!isMobile && <Td align="center">Reaaliaikainen saapumistieto</Td>}
+            {!isMobile && <Td align="center">Aikataulun mukainen tuloaika </Td>}
+            {isRealTime && !isMobile && <Td align="center">Arvioitu tuloaika</Td>}
+            {isRealTime && !isMobile && <Td align="center">Tuloaika myöhässä</Td>}
+            {!isMobile && <Td align="center">Aikataulun mukainen lähtöaika</Td>}
+            {isRealTime && !isMobile && <Td align="center">Arvioitu lähtöaika</Td>}
+            {isRealTime && !isMobile && <Td align="center">Lähtöaika myöhässä</Td>}
+            {isMobile && <Td align="center">Tuloaika</Td>}
           </TableRow>
         </TableHead>
         <TableBody>
@@ -69,16 +69,16 @@ const TimeTable: React.FC<TableProps> = ({ stop, isMobile, isRealTime }) => {
 
             return (
               <Tr key={i}>
-                <Td>{line}</Td>
-                <Td>{sortedRoute}</Td>
-                {!isMobile && <Td>{realtime ? 'KYLLÄ' : 'EI'}</Td>}
-                {!isMobile && <Td>{scheduledArrival}</Td>}
-                {isRealTime && !isMobile && <Td>{realtimeArrival}</Td>}
-                {isRealTime && !isMobile && <Td>{arrivalDelay}</Td>}
-                {!isMobile && <Td>{scheduledDeparture}</Td>}
-                {isRealTime && !isMobile && <Td>{realtimeDeparture}</Td>}
-                {isRealTime && !isMobile && <Td>{departureDelay}</Td>}
-                {isMobile && <Td>{realtime ? realtimeArrival : scheduledArrival}</Td>}
+                <Td align="center">{line}</Td>
+                <Td align="center">{sortedRoute}</Td>
+                {!isMobile && <Td align="center">{realtime ? 'KYLLÄ' : 'EI'}</Td>}
+                {!isMobile && <Td align="center">{scheduledArrival}</Td>}
+                {isRealTime && !isMobile && <Td align="center">{realtimeArrival}</Td>}
+                {isRealTime && !isMobile && <Td align="center">{arrivalDelay}</Td>}
+                {!isMobile && <Td align="center">{scheduledDeparture}</Td>}
+                {isRealTime && !isMobile && <Td align="center">{realtimeDeparture}</Td>}
+                {isRealTime && !isMobile && <Td align="center">{departureDelay}</Td>}
+                {isMobile && <Td align="center">{realtime ? realtimeArrival : scheduledArrival}</Td>}
               </Tr>
             )
           })}

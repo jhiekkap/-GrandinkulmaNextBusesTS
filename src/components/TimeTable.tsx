@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { useStateValue, setStops } from "../state";
 import { useQuery } from '@apollo/client'
 import { STOP_QUERY, parseQuery } from '../graphQL'
 import { parseVehicle } from '../utils';
@@ -13,14 +14,10 @@ import { Vehicle } from '../types'
 interface VehicleVars {
     name: string;
 }
+  
+const TimeTable: React.FC = () => {
 
-interface TimeTableProps {
-    stopName: string;
-}
-
-const TimeTable: React.FC<TimeTableProps> = ({ stopName }) => {
-
-    const [stops, setStops] = useState<Stop[]>([]);
+    const [{ stops, stopName }, dispatch] = useStateValue(); 
     const { loading, error, data } = useQuery<Vehicle, VehicleVars>(
         STOP_QUERY,
         {
@@ -34,7 +31,8 @@ const TimeTable: React.FC<TimeTableProps> = ({ stopName }) => {
 
     useEffect(() => {
         if (data) {
-            setStops(parseQuery(data));
+            console.log('DATAAA', data)
+            dispatch(setStops(parseQuery(data)));
         }
     }, [data]);
 

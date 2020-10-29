@@ -1,18 +1,16 @@
 import React, { useState } from 'react';
+import { useStateValue, setStopName } from "../state";
 
-interface StopSearchProps {
-    setStopName: (stop: string) => void;
-}
+const StopSearch: React.FC = () => {
 
-const StopSearch: React.FC<StopSearchProps> = ({ setStopName }) => {
-
+    const [, dispatch] = useStateValue();
     const [name, setName] = useState('');
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
         if (name) {
-            console.log('STOP', name); 
-            setStopName(name);
+            console.log('STOP', name);
+            dispatch(setStopName(name));
             setTimeout(() => setName(''), 5000);
         }
     }

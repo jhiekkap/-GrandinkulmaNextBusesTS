@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useStateValue } from "./state";
 import './App.css';
 import TimeTable from './components/TimeTable';
 import StopSearch from './components/StopSearch';
@@ -8,7 +9,7 @@ import { Theme } from '@material-ui/core/styles/createMuiTheme';
 
 const App: React.FC = () => {
 
-  const [stopName, setStopName] = useState('Grandinkulma');
+  const [{ stopName }] = useStateValue();
   const theme: Theme = useTheme();
   const isMobile: Boolean = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -16,8 +17,8 @@ const App: React.FC = () => {
     <div className="App">
       <h1>PYSÄKKIHAKU</h1>
       <h4>{`Haun "${stopName}"  tulo${!isMobile ? '- ja lähtö' : ''}ajat`}</h4>
-      <StopSearch setStopName={setStopName} />
-      <TimeTable stopName={stopName} />
+      <StopSearch />
+      <TimeTable />
     </div>
   );
 }

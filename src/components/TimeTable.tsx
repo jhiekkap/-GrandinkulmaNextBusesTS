@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { useQuery, useLazyQuery } from '@apollo/client'
+import { useQuery  } from '@apollo/client'
 import { STOP_QUERY, parseQuery } from '../graphQL'
 import StopSearch from './StopSearch';
-import { getTime, delayToString, parseVehicle } from '../utils';
+import { parseVehicle } from '../utils';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { Stop } from '../types';
@@ -27,15 +27,8 @@ const TimeTable: React.FC = () => {
             },
             pollInterval: 1000
         });
-    const [getStopsQuery, updatedStops] = useLazyQuery<Vehicle, VehicleVars>(STOP_QUERY);
     const theme: Theme = useTheme();
     const isMobile: Boolean = useMediaQuery(theme.breakpoints.down('sm'));
-
-    useEffect(() => {
-        if (updatedStops.data) {
-            setStops(parseQuery(updatedStops.data));
-        }
-    }, [updatedStops]);
 
     useEffect(() => {
         if (initialStopQuery.data) {
@@ -43,16 +36,12 @@ const TimeTable: React.FC = () => {
         }
     }, [initialStopQuery]);
 
-    const getStopsByName = (name: string) => {
-        getStopsQuery({ variables: { name } });
-    }
-
-    console.log(new Date(),'CHOSEN STOPS', stops);
+    console.log(new Date(), 'CHOSEN STOPS', stops);
 
 
     return <div className='timetableContainer'>
         <h4>{`Haun "${stopName}"  tulo${!isMobile ? '- ja lähtö' : ''}ajat`}</h4>
-        <StopSearch setStopName={setStopName} getStopsByName={getStopsByName} />
+        <StopSearch setStopName={setStopName} />
         {stops.length > 0 ? <div>
             {stops.map((stop: Stop, s) => {
                 const isRealTime: Boolean = Boolean(stop.vehicles.find(vehicle => vehicle.realtime));
@@ -100,9 +89,8 @@ const TimeTable: React.FC = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {stop.vehicles.map((vehicle, i) => { 
-
-                                        const { line, sortedRoute, realtime, scheduledArrival, realtimeArrival, 
+                                    {stop.vehicles.map((vehicle, i) => {
+                                        const { line, sortedRoute, realtime, scheduledArrival, realtimeArrival,
                                             arrivalDelay, scheduledDeparture, realtimeDeparture, departureDelay } = parseVehicle(vehicle)
 
                                         return <tr key={i}>

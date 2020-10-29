@@ -21,7 +21,7 @@ interface TimeTableProps {
 const TimeTable: React.FC<TimeTableProps> = ({ stopName }) => {
 
     const [stops, setStops] = useState<Stop[]>([]);
-    const initialStopQuery = useQuery<Vehicle, VehicleVars>(
+    const { loading, error, data } = useQuery<Vehicle, VehicleVars>(
         STOP_QUERY,
         {
             variables: {
@@ -33,107 +33,118 @@ const TimeTable: React.FC<TimeTableProps> = ({ stopName }) => {
     const isMobile: Boolean = useMediaQuery(theme.breakpoints.down('sm'));
 
     useEffect(() => {
-        if (initialStopQuery.data) {
-            setStops(parseQuery(initialStopQuery.data));
+        if (data) {
+            setStops(parseQuery(data));
         }
-    }, [initialStopQuery]);
+    }, [data]);
 
-    console.log(new Date(), 'CHOSEN STOPS', stops);
+    console.log(new Date(), 'FOUND STOPS', stops);
 
-    return <div className='timetableContainer'>
-        {stops.length > 0 ? <div>
-            {stops.map((stop: Stop, s) => {
-                const isRealTime: Boolean = Boolean(stop.vehicles.find(vehicle => vehicle.realtime));
-                const hasVehicles: Boolean = stops.length > 0 && stops[0].vehicles.length > 0;
+    if (loading) {
+        return <div>Loading...</div>
+    }
 
-                return (
-                    <div className='timetable' key={s}>
-                        {stops.length === 2
-                            && (s === 0 ? <ArrowForwardIcon /> : <ArrowBackIcon />)}
-                        {hasVehicles ? <div>{`${stop.name} ${stop.code}`}</div> : <div>Ei tulevia lähtöjä</div>}
-                        {hasVehicles &&
-                            <table >
-                                <thead>
-                                    <tr>
-                                        <td>
-                                            Linja
-                                        </td>
-                                        <td>
-                                            Reitti
-                                        </td>
-                                        {!isMobile && <td>
-                                            Reaaliaikainen saapumistieto
-                                        </td>}
-                                        {!isMobile && <td>
-                                            Aikataulun mukainen tuloaika
-                                        </td>}
-                                        {isRealTime && !isMobile && <td>
-                                            Arvioitu tuloaika
-                                        </td>}
-                                        {isRealTime && !isMobile && <td>
-                                            Tuloaika myöhässä
-                                        </td>}
-                                        {!isMobile && <td>
-                                            Aikataulun mukainen lähtöaika
-                                        </td>}
-                                        {isRealTime && !isMobile && <td>
-                                            Arvioitu lähtöaika
-                                        </td>}
-                                        {isRealTime && !isMobile && <td>
-                                            Lähtöaika myöhässä
-                                        </td>}
-                                        {isMobile && <td>
-                                            Tuloaika
-                                        </td>}
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {stop.vehicles.map((vehicle, i) => {
-                                        const { line, sortedRoute, realtime, scheduledArrival, realtimeArrival,
-                                            arrivalDelay, scheduledDeparture, realtimeDeparture, departureDelay } = parseVehicle(vehicle)
+    if (error) {
+        console.log('GQL ERROR', error);
+        return <div> Error</div>
+    }
 
-                                        return <tr key={i}>
+    return (
+        <div>
+            {stops.length > 0 ? <div>
+                {stops.map((stop: Stop, s) => {
+                    const isRealTime: Boolean = Boolean(stop.vehicles.find(vehicle => vehicle.realtime));
+                    const hasVehicles: Boolean = stops.length > 0 && stops[0].vehicles.length > 0;
+
+                    return (
+                        <div className='timetable' key={s}>
+                            {stops.length === 2
+                                && (s === 0 ? <ArrowForwardIcon /> : <ArrowBackIcon />)}
+                            {hasVehicles ? <div>{`${stop.name} ${stop.code}`}</div> : <div>Ei tulevia lähtöjä</div>}
+                            {hasVehicles &&
+                                <table >
+                                    <thead>
+                                        <tr>
                                             <td>
-                                                {line}
+                                                Linja
                                             </td>
                                             <td>
-                                                {sortedRoute}
+                                                Reitti
                                             </td>
                                             {!isMobile && <td>
-                                                {realtime ? 'KYLLÄ' : 'EI'}
+                                                Reaaliaikainen saapumistieto
                                             </td>}
                                             {!isMobile && <td>
-                                                {scheduledArrival}
+                                                Aikataulun mukainen tuloaika
                                             </td>}
                                             {isRealTime && !isMobile && <td>
-                                                {realtimeArrival}
+                                                Arvioitu tuloaika
                                             </td>}
                                             {isRealTime && !isMobile && <td>
-                                                {arrivalDelay}
+                                                Tuloaika myöhässä
                                             </td>}
                                             {!isMobile && <td>
-                                                {scheduledDeparture}
+                                                Aikataulun mukainen lähtöaika
                                             </td>}
                                             {isRealTime && !isMobile && <td>
-                                                {realtimeDeparture}
+                                                Arvioitu lähtöaika
                                             </td>}
                                             {isRealTime && !isMobile && <td>
-                                                {departureDelay}
+                                                Lähtöaika myöhässä
                                             </td>}
                                             {isMobile && <td>
-                                                {realtime ? realtimeArrival : scheduledArrival}
+                                                Tuloaika
                                             </td>}
                                         </tr>
-                                    })}
-                                </tbody>
-                            </table>}
-                    </div>
-                )
-            })}
+                                    </thead>
+                                    <tbody>
+                                        {stop.vehicles.map((vehicle, i) => {
+                                            const { line, sortedRoute, realtime, scheduledArrival, realtimeArrival,
+                                                arrivalDelay, scheduledDeparture, realtimeDeparture, departureDelay } = parseVehicle(vehicle)
+
+                                            return <tr key={i}>
+                                                <td>
+                                                    {line}
+                                                </td>
+                                                <td>
+                                                    {sortedRoute}
+                                                </td>
+                                                {!isMobile && <td>
+                                                    {realtime ? 'KYLLÄ' : 'EI'}
+                                                </td>}
+                                                {!isMobile && <td>
+                                                    {scheduledArrival}
+                                                </td>}
+                                                {isRealTime && !isMobile && <td>
+                                                    {realtimeArrival}
+                                                </td>}
+                                                {isRealTime && !isMobile && <td>
+                                                    {arrivalDelay}
+                                                </td>}
+                                                {!isMobile && <td>
+                                                    {scheduledDeparture}
+                                                </td>}
+                                                {isRealTime && !isMobile && <td>
+                                                    {realtimeDeparture}
+                                                </td>}
+                                                {isRealTime && !isMobile && <td>
+                                                    {departureDelay}
+                                                </td>}
+                                                {isMobile && <td>
+                                                    {realtime ? realtimeArrival : scheduledArrival}
+                                                </td>}
+                                            </tr>
+                                        })}
+                                    </tbody>
+                                </table>}
+                        </div>
+                    )
+                })}
+            </div>
+                : <div>Ei pysäkkejä</div>}
         </div>
-            : <div>Ei pysäkkejä</div>}
-    </div>
+    );
 }
 
- 
+
 export default TimeTable;

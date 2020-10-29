@@ -13,14 +13,14 @@ const StopSearch: React.FC<StopSearchProps> = ({ setStopName }) => {
         if (name) {
             console.log('STOP', name); 
             setStopName(name);
-            setTimeout(() => setName(''), 3000);
+            setTimeout(() => setName(''), 5000);
         }
     }
 
     return (
         <form onSubmit={handleSubmit}>
             <label>
-                Kokeile toista pysäkkiä:
+                Hae pysäkkiä:
                 <input
                     type="text"
                     value={name}
@@ -29,7 +29,7 @@ const StopSearch: React.FC<StopSearchProps> = ({ setStopName }) => {
             </label>
             <button type='submit'>Lähetä</button>
         </form>
-    )
+    );
 }
 
 export default StopSearch;

@@ -1,20 +1,20 @@
 import React from 'react';
 import '@testing-library/jest-dom/extend-expect'
 import { render, fireEvent } from '@testing-library/react';
-import TimeTable from './TimeTable';
+import SearchResults from './SearchResults';
 import { ApolloProvider } from '@apollo/client'
 import { client } from '../graphQL'
 
 
 
-describe('<TimeTable />', () => {
+describe('<SearchResults />', () => {
 
     let component: any;
 
     beforeEach(() => {
         component = render(
             <ApolloProvider client={client}>
-                <TimeTable />
+                <SearchResults />
             </ApolloProvider>);
     });
 

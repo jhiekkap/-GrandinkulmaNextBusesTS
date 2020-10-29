@@ -7,7 +7,7 @@ import '@testing-library/jest-dom/extend-expect'
 import { prettyDOM } from '@testing-library/dom'
 
  
-describe('<App />', () => {
+describe('<App />', () => { 
 
   let component:any;
 
@@ -27,7 +27,7 @@ describe('<App />', () => {
   test('renders page title', () => {
  
     const body = component.container.querySelector('body')
-    //console.log(prettyDOM(body))
+    console.log(prettyDOM(body))
     //component.debug()
 
     // tapa 1

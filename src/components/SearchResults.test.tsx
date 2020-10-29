@@ -7,7 +7,7 @@ import { client } from '../graphQL'
 
 
 
-describe('<SearchResults />', () => {
+describe('<SearchResults />', () => { 
 
     let component: any;
 

@@ -8,18 +8,18 @@ describe('<TimeTable />', () => {
 
     let component: any;
 
-    beforeEach(() => {
+    beforeEach(() => { 
 
-        const setStopName = () => console.log('SETTING STOP NAME')
-        const getStopsByName = () => console.log('GETTING STOPS BY NAME')
+        /* const setStopName = () => console.log('SETTING STOP NAME')
+        const getStopsByName = () => console.log('GETTING STOPS BY NAME') */
 
         component = render(
-            <StopSearch setStopName={setStopName} getStopsByName={getStopsByName} />
+            <StopSearch/>
         );
     });
 
     test('renders button label', () => {
-        const buttonLabel = component.getByText(/Lähetä/i);
+        const buttonLabel = component.getByText(/Hae/i);
         expect(buttonLabel).toBeInTheDocument();
     }); 
 });

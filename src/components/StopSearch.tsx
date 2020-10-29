@@ -50,8 +50,10 @@ const StopSearch: React.FC = () => {
                 <Grid item xs={12} sm={4} md={6}>
                     <Button
                         className={classes.button}
-                        variant="contained" 
-                        size="medium">
+                        variant="contained"
+                        size="medium"
+                        type="submit"
+                    >
                         Hae
                  </Button>
                 </Grid>

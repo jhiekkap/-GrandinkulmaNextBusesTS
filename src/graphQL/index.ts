@@ -43,14 +43,14 @@ query stopQuery($name: String!) {
 export const parseQuery = (data: any) => {
   return data.stops.map((stop: Stop) => {
     const { name, code } = stop;
-    console.log('STOPPI', stop)
+    //console.log('STOPPI', stop)
     return {
       name,
       code,
       vehicles: stop.stoptimesWithoutPatterns.map((vehicle: Vehicle) => {
         const { serviceDay, scheduledArrival, realtime, realtimeArrival, arrivalDelay,
           scheduledDeparture, realtimeDeparture, departureDelay, trip } = vehicle
-        console.log('VEHICLE', vehicle)
+        //console.log('VEHICLE', vehicle)
         return {
           serviceDay,
           scheduledArrival,

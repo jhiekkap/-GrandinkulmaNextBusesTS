@@ -2,8 +2,8 @@ import { getTime, delayToString } from '.';
 
    
 test('Anna kloaika aikastringistä', () => {
-    const aNewDateToString = 'Wed Oct 28 2020 09:42:08 GMT+0200 (GMT+02:00)';
-    expect(getTime(aNewDateToString)).toBe('09:42:08');
+    const aNewDateToString = new Date('2020-10-29T06:48:39.870Z');
+    expect(getTime(aNewDateToString)).toBe('08:48:39');  /// UTC + 2
 });
 
 test('täydennä viiveen minuuttien ja sekuntien esitys (muoto 00:00) nollilla jos numerot alle 10', () => {

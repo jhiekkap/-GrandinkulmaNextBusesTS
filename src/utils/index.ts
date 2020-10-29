@@ -1,5 +1,5 @@
 
-export const getTime = (date:string) => date.split(' ')[4];
+export const getTime = (date:Date) => date.toString().split(' ')[4]; 
 
 export const delayToString = (delay:number) => {
     const delayAbs = Math.abs(delay);

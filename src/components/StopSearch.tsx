@@ -13,7 +13,7 @@ const StopSearch: React.FC<StopSearchProps> = ({ setStopName, getStopsByName }) 
         e.preventDefault();
         if (name) {
             console.log('STOP', name);
-            getStopsByName(name);
+            //getStopsByName(name);
             setStopName(name);
             setTimeout(() => setName(''), 3000);
         } 

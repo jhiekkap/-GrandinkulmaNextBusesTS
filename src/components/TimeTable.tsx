@@ -25,7 +25,7 @@ const TimeTable: React.FC = () => {
             variables: {
                 name: stopName
             },
-            pollInterval: 5000
+            pollInterval: 1000
         });
     const [getStopsQuery, updatedStops] = useLazyQuery<Vehicle, VehicleVars>(STOP_QUERY);
     const theme: Theme = useTheme();
@@ -47,7 +47,7 @@ const TimeTable: React.FC = () => {
         getStopsQuery({ variables: { name } });
     }
 
-    console.log('CHOSEN STOPS', stops);
+    console.log(new Date(),'CHOSEN STOPS', stops);
 
 
     return <div className='timetableContainer'>
@@ -69,34 +69,34 @@ const TimeTable: React.FC = () => {
                                     <tr>
                                         <td>
                                             Linja
-                                    </td>
+                                        </td>
                                         <td>
                                             Reitti
-                                    </td>
+                                        </td>
                                         {!isMobile && <td>
                                             Reaaliaikainen saapumistieto
-                                    </td>}
+                                        </td>}
                                         {!isMobile && <td>
                                             Aikataulun mukainen tuloaika
-                                    </td>}
+                                        </td>}
                                         {isRealTime && !isMobile && <td>
                                             Arvioitu tuloaika
-                                    </td>}
+                                        </td>}
                                         {isRealTime && !isMobile && <td>
                                             Tuloaika myöhässä
-                                    </td>}
+                                        </td>}
                                         {!isMobile && <td>
                                             Aikataulun mukainen lähtöaika
-                                    </td>}
+                                        </td>}
                                         {isRealTime && !isMobile && <td>
                                             Arvioitu lähtöaika
-                                    </td>}
+                                        </td>}
                                         {isRealTime && !isMobile && <td>
                                             Lähtöaika myöhässä
-                                    </td>}
+                                        </td>}
                                         {isMobile && <td>
                                             Tuloaika
-                                    </td>}
+                                        </td>}
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -104,15 +104,15 @@ const TimeTable: React.FC = () => {
                                         const { serviceDay, line, route, realtime, direction } = vehicle;
                                         const sortedRoute = direction ? route.split('-').reverse().join('-') : route;
                                         const serviceDayInMs = serviceDay * 1000;
-                                        const scheduledArrival = getTime(new Date(serviceDayInMs + vehicle.scheduledArrival * 1000).toString());
+                                        const scheduledArrival = getTime(new Date(serviceDayInMs + vehicle.scheduledArrival * 1000));
                                         //console.log('SCHEDULED ARRIVAL', scheduledArrival);
-                                        const realtimeArrival = getTime(new Date(serviceDayInMs + vehicle.realtimeArrival * 1000).toString());
+                                        const realtimeArrival = getTime(new Date(serviceDayInMs + vehicle.realtimeArrival * 1000));
                                         //console.log('REAL TIME ARRIVAL', realtimeArrival);
                                         const arrivalDelay = delayToString(vehicle.arrivalDelay);
                                         //console.log('ARRIVAL DELAY ', arrivalDelay);
-                                        const scheduledDeparture = getTime(new Date(serviceDayInMs + vehicle.scheduledDeparture * 1000).toString());
+                                        const scheduledDeparture = getTime(new Date(serviceDayInMs + vehicle.scheduledDeparture * 1000));
                                         //console.log('SCHEDULED DEPARTURE', scheduledDeparture);
-                                        const realtimeDeparture = getTime(new Date(serviceDayInMs + vehicle.realtimeDeparture * 1000).toString());
+                                        const realtimeDeparture = getTime(new Date(serviceDayInMs + vehicle.realtimeDeparture * 1000));
                                         //console.log('REAL TIME DEPARTURE', realtimeDeparture);
                                         const departureDelay = delayToString(vehicle.departureDelay);
                                         //console.log('DEPARTURE DELAY ', departureDelay);

@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
 import { useStateValue, setStops } from "../state";
 import { useQuery } from '@apollo/client'
-import { STOP_QUERY, parseQuery } from '../graphQL'
-/* import { parseVehicle } from '../utils'; */
+import { STOP_QUERY, parseQuery } from '../graphQL' 
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import { Stop } from '../types';
@@ -56,7 +55,7 @@ const SearchResult: React.FC = () => {
                     const hasVehicles: Boolean = stops.length > 0 && stops[0].vehicles.length > 0;
 
                     return (
-                        <div className='timetable' key={s}>
+                        <div /* className='timetable' */ key={s}>
                             {stops.length === 2
                                 && (s === 0 ? <ArrowForwardIcon /> : <ArrowBackIcon />)}
                             {hasVehicles ? <div>{`${stop.name} ${stop.code}`}</div> : <div>Ei tulevia lähtöjä</div>}

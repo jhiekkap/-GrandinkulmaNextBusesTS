@@ -1,6 +1,5 @@
 import React from 'react';
 import { useStateValue } from "./state";
-//import './App.css';
 import SearchResults from './components/SearchResults';
 import StopSearch from './components/StopSearch';
 import { useMediaQuery, Container } from '@material-ui/core';
@@ -15,7 +14,7 @@ const App: React.FC = () => {
   const isMobile: Boolean = useMediaQuery(theme.breakpoints.down('sm'));
 
   return (
-    <Container maxWidth='md' /* className="App" */> 
+    <Container maxWidth='md'>
       <h1>PYSÄKKIHAKU</h1>
       <h4>{`Haun "${stopName}"  tulo${!isMobile ? '- ja lähtö' : ''}ajat`}</h4>
       <StopSearch />

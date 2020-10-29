@@ -27,11 +27,14 @@ const Tr = withStyles((theme: Theme) =>
 )(TableRow);
 
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   table: {
-    minWidth: 700,
+   // minWidth: 700,
+    [theme.breakpoints.down('sm')]: {
+      width: '100%'
+    },
   },
-});
+}));
 
 interface TableProps {
   stop: Stop;

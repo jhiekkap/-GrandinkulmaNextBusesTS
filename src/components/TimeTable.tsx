@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useQuery  } from '@apollo/client'
+import { useQuery } from '@apollo/client'
 import { STOP_QUERY, parseQuery } from '../graphQL'
-import StopSearch from './StopSearch';
 import { parseVehicle } from '../utils';
 import ArrowForwardIcon from '@material-ui/icons/ArrowForward';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
@@ -15,10 +14,13 @@ interface VehicleVars {
     name: string;
 }
 
-const TimeTable: React.FC = () => {
+interface TimeTableProps {
+    stopName: string;
+}
+
+const TimeTable: React.FC<TimeTableProps> = ({ stopName }) => {
 
     const [stops, setStops] = useState<Stop[]>([]);
-    const [stopName, setStopName] = useState('Grandinkulma');
     const initialStopQuery = useQuery<Vehicle, VehicleVars>(
         STOP_QUERY,
         {
@@ -38,10 +40,7 @@ const TimeTable: React.FC = () => {
 
     console.log(new Date(), 'CHOSEN STOPS', stops);
 
-
     return <div className='timetableContainer'>
-        <h4>{`Haun "${stopName}"  tulo${!isMobile ? '- ja lähtö' : ''}ajat`}</h4>
-        <StopSearch setStopName={setStopName} />
         {stops.length > 0 ? <div>
             {stops.map((stop: Stop, s) => {
                 const isRealTime: Boolean = Boolean(stop.vehicles.find(vehicle => vehicle.realtime));
@@ -136,6 +135,5 @@ const TimeTable: React.FC = () => {
     </div>
 }
 
-
-
+ 
 export default TimeTable;

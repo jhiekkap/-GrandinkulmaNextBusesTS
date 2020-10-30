@@ -26,15 +26,18 @@ interface VehicleVars {
     name: string;
 }
 
+interface SearchResultProps {
+    query?: string
+}
 
-const SearchResult: React.FC = () => {
+const SearchResult: React.FC<SearchResultProps> = ({ query }) => {  ///// propsi vain testausta varten
 
     const [{ stops, stopName }, dispatch] = useStateValue();
     const classes = useStyles();
     const { loading, error, data } = useQuery<Vehicle, VehicleVars>(
         STOP_QUERY, {
         variables: {
-            name: stopName
+            name: query || stopName
         },
         pollInterval: 1000
     });

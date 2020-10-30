@@ -25,10 +25,8 @@ const StopSearch: React.FC = () => {
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
-        if (name) {
-            console.log('STOP', name);
-            dispatch(setStopName(name));
-            setTimeout(() => setName(''), 5000);
+        if (name) { 
+            dispatch(setStopName(name)); 
         }
     }
 

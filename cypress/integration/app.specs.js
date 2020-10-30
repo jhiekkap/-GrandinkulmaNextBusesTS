@@ -1,4 +1,4 @@
-describe('Stop searc', function() {
+describe('Stop search', function() {
     it('front page can be opened', function() {
       cy.visit('https://grandinkulma-next-buses-ts.vercel.app/');
       cy.contains('PYSÄKKIHAKU'); 

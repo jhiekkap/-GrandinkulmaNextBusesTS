@@ -14,7 +14,7 @@ const App: React.FC = () => {
 
   return (
     <Container className="App" maxWidth='md'>
-      <h3>PYSÄKKIHAKU</h3>
+      <h3>PYSÄKKIHAKU with GitHub Actions</h3>
       <StopSearch /> 
       <h4>{`Haun "${stopName}" pysäkit ja tulo${!isMobile ? '- ja lähtö' : ''}ajat:`}</h4>
       <SearchResults />

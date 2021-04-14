@@ -1,9 +1,9 @@
-name: Release DevOps with Docker
+name: Grandinkulma
 
 on:
   push:
     branches: 
-      - master
+      - main
 
 jobs:
   build:

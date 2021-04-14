@@ -3,7 +3,7 @@ services:
   grandinkulma:
     image: jhiekkap/grandinkulma
     ports:
-      - 4000:5000
+      - 5000:5000
     container_name: grandinkulma
   watchtower:
     image: containrrr/watchtower

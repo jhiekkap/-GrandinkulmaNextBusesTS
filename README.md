@@ -1,4 +1,4 @@
-A Typescript/GraphQL demo project for getting real-time arrival times of HSL vehicles
+A Typescript/GraphQL demo project to get real-time arrival times of HSL vehicles
 
 - Install [node](https://nodejs.org/en/download/). 
 - Install all packages with `npm install`
